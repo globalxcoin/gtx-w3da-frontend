@@ -1,30 +1,49 @@
-<section id="trade-form">
-    <h2>Submit Trade Request</h2>
-    <form id="tradeForm">
-        <label for="tradeType">Type:</label>
-        <select id="tradeType" name="tradeType" required>
-            <option value="">Select</option>
-            <option value="Buy">Buy</option>
-            <option value="Sell">Sell</option>
-        </select>
+<form id="tradeForm">
+  <label>Type:</label>
+  <select id="tradeType" required>
+    <option value="">Select</option>
+    <option value="Buy">Buy</option>
+    <option value="Sell">Sell</option>
+  </select>
 
-        <label for="asset">Asset / Card:</label>
-        <input type="text" id="asset" name="asset" placeholder="BTC / USDT / Gift Card" required>
+  <label>Asset:</label>
+  <input type="text" id="asset" required placeholder="BTC / USDT / Gift Card">
 
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" placeholder="Amount" required>
+  <label>Amount:</label>
+  <input type="number" id="amount" required placeholder="Amount">
 
-        <label for="wallet">Wallet / Card Details:</label>
-        <input type="text" id="wallet" name="wallet" placeholder="Wallet address or Card info" required>
+  <label>Wallet / Card details:</label>
+  <input type="text" id="details" required placeholder="Wallet or Card info">
 
-        <label for="whatsapp">WhatsApp Number:</label>
-        <input type="text" id="whatsapp" name="whatsapp" placeholder="e.g. +2347055912658" required>
+  <label>Proof image (optional):</label>
+  <input type="file" id="proofImage" accept="image/*">
 
-        <label for="proof">Payment Proof (optional):</label>
-        <input type="file" id="proof" name="proof" accept="image/*">
+  <button type="submit">Submit</button>
+</form>
 
-        <button type="submit">Submit Trade</button>
-    </form>
+<script>
+const whatsappNumber = "2347055912658"; // Replace with your WhatsApp number including country code
 
-    <p id="tradeMessage" style="color: green; font-weight: bold;"></p>
-                                          </section>
+document.getElementById("tradeForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const type = document.getElementById("tradeType").value;
+  const asset = document.getElementById("asset").value;
+  const amount = document.getElementById("amount").value;
+  const details = document.getElementById("details").value;
+  const proof = document.getElementById("proofImage").files[0];
+
+  // Build the WhatsApp message
+  let message = `Hello, I want to submit a trade request:\nType: ${type}\nAsset: ${asset}\nAmount: ${amount}\nDetails: ${details}`;
+
+  if (proof) {
+    message += `\n\nI have an image proof ready to attach. Please attach it manually in WhatsApp.`;
+  }
+
+  // Open WhatsApp with pre-filled message
+  const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappURL, "_blank");
+
+  alert("Trade request ready to send on WhatsApp! Attach your proof image if applicable.");
+});
+</script>
